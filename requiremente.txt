@@ -1,0 +1,2 @@
+This is what I want:
+I want an app that will project a game about a snake that eats numbers, it wins the game when the player adds up numbers until 700.
