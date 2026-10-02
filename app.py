@@ -1,4 +1,5 @@
-﻿import streamlit as st
+import streamlit as st
+import streamlit_hotkeys as hotkeys
 import random
 import time
 
@@ -13,6 +14,14 @@ st.set_page_config(
 
 st.title("🐍 Snake: Add to 700!")
 st.write("Eat the numbers and add them up. Reach **700** to win!")
+
+# Capture arrow keys at the page level and stop the browser scrolling.
+hotkeys.activate([
+    hotkeys.hk("up", "ArrowUp", prevent_default=True),
+    hotkeys.hk("down", "ArrowDown", prevent_default=True),
+    hotkeys.hk("left", "ArrowLeft", prevent_default=True),
+    hotkeys.hk("right", "ArrowRight", prevent_default=True),
+])
 
 # -----------------------------
 # Constants
@@ -96,12 +105,23 @@ def change_direction(direction):
     st.session_state.direction = direction
 
 
+if st.session_state.running:
+    if hotkeys.pressed("up"):
+        change_direction((0, -1))
+    elif hotkeys.pressed("down"):
+        change_direction((0, 1))
+    elif hotkeys.pressed("left"):
+        change_direction((-1, 0))
+    elif hotkeys.pressed("right"):
+        change_direction((1, 0))
+
+
 # -----------------------------
 # Direction controls
 # -----------------------------
 st.subheader("Controls")
 
-st.write("Use the direction buttons to move. The snake cannot turn directly back into itself.")
+st.write("Use the arrow keys or direction buttons to steer. The snake cannot turn directly back into itself.")
 
 # -----------------------------
 # Button controls
