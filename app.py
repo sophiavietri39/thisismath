@@ -1,18 +1,17 @@
-import streamlit as st
+﻿import streamlit as st
 import random
 import time
-from streamlit_keyup import st_keyup
 
 # -----------------------------
 # Page setup
 # -----------------------------
 st.set_page_config(
     page_title="Snake: Add to 700!",
-    page_icon="🐍",
+    page_icon="ðŸ",
     layout="centered"
 )
 
-st.title("🐍 Snake: Add to 700!")
+st.title("ðŸ Snake: Add to 700!")
 st.write("Eat the numbers and add them up. Reach **700** to win!")
 
 # -----------------------------
@@ -98,32 +97,11 @@ def change_direction(direction):
 
 
 # -----------------------------
-# Keyboard input
+# Direction controls
 # -----------------------------
-st.subheader("🎮 Controls")
+st.subheader("Controls")
 
-st.write("Use **⬆️ ⬇️ ⬅️ ➡️** on your keyboard to move.")
-
-key = st_keyup(
-    "Press an arrow key ",
-    key="snake_keyboard",
-    debounce=50
-)
-
-if key:
-
-    if key == "ArrowUp":
-        change_direction((0, -1))
-
-    elif key == "ArrowDown":
-        change_direction((0, 1))
-
-    elif key == "ArrowLeft":
-        change_direction((-1, 0))
-
-    elif key == "ArrowRight":
-        change_direction((1, 0))
-
+st.write("Use the direction buttons to move. The snake cannot turn directly back into itself.")
 
 # -----------------------------
 # Button controls
@@ -131,19 +109,19 @@ if key:
 col1, col2, col3 = st.columns(3)
 
 with col2:
-    if st.button("⬆️ Up", use_container_width=True):
+    if st.button("↑ Up", use_container_width=True):
         change_direction((0, -1))
 
 with col1:
-    if st.button("⬅️ Left", use_container_width=True):
+    if st.button("← Left", use_container_width=True):
         change_direction((-1, 0))
 
 with col3:
-    if st.button("➡️ Right", use_container_width=True):
+    if st.button("→ Right", use_container_width=True):
         change_direction((1, 0))
 
 with col2:
-    if st.button("⬇️ Down", use_container_width=True):
+    if st.button("↓ Down", use_container_width=True):
         change_direction((0, 1))
 
 
@@ -153,11 +131,11 @@ with col2:
 col1, col2 = st.columns(2)
 
 with col1:
-    if st.button("▶️ Start Game", use_container_width=True):
+    if st.button("â–¶ï¸ Start Game", use_container_width=True):
         st.session_state.running = True
 
 with col2:
-    if st.button("🔄 New Game", use_container_width=True):
+    if st.button("ðŸ”„ New Game", use_container_width=True):
         reset_game()
         st.rerun()
 
@@ -252,13 +230,13 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.metric(
-        "🔢 Total",
+        "ðŸ”¢ Total",
         st.session_state.total
     )
 
 with col2:
     st.metric(
-        "🎯 Goal",
+        "ðŸŽ¯ Goal",
         700
     )
 
@@ -280,11 +258,11 @@ for y in range(HEIGHT):
 
         if position == st.session_state.snake[0]:
 
-            cell = "🟢"
+            cell = "ðŸŸ¢"
 
         elif position in st.session_state.snake:
 
-            cell = "🟩"
+            cell = "ðŸŸ©"
 
         elif position == st.session_state.number_position:
 
@@ -292,7 +270,7 @@ for y in range(HEIGHT):
 
         else:
 
-            cell = "⬜"
+            cell = "â¬œ"
 
         row.append(cell)
 
@@ -308,7 +286,7 @@ for row in board:
 # -----------------------------
 if st.session_state.game_over:
 
-    st.error("💥 Game Over! You hit the wall.")
+    st.error("ðŸ’¥ Game Over! You hit the wall.")
 
     st.info(
         f"You scored **{st.session_state.total}**."
@@ -316,7 +294,7 @@ if st.session_state.game_over:
 
 elif st.session_state.won:
 
-    st.success("🏆 YOU WIN!")
+    st.success("ðŸ† YOU WIN!")
 
     st.balloons()
 
@@ -339,3 +317,4 @@ if st.session_state.running:
     time.sleep(0.25)
 
     st.rerun()
+
