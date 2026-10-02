@@ -7,11 +7,11 @@ import time
 # -----------------------------
 st.set_page_config(
     page_title="Snake: Add to 700!",
-    page_icon="ðŸ",
+    page_icon="🐍",
     layout="centered"
 )
 
-st.title("ðŸ Snake: Add to 700!")
+st.title("🐍 Snake: Add to 700!")
 st.write("Eat the numbers and add them up. Reach **700** to win!")
 
 # -----------------------------
@@ -131,11 +131,11 @@ with col2:
 col1, col2 = st.columns(2)
 
 with col1:
-    if st.button("â–¶ï¸ Start Game", use_container_width=True):
+    if st.button("▶️ Start Game", use_container_width=True):
         st.session_state.running = True
 
 with col2:
-    if st.button("ðŸ”„ New Game", use_container_width=True):
+    if st.button("🔄 New Game", use_container_width=True):
         reset_game()
         st.rerun()
 
@@ -230,13 +230,13 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.metric(
-        "ðŸ”¢ Total",
+        "🔢 Total",
         st.session_state.total
     )
 
 with col2:
     st.metric(
-        "ðŸŽ¯ Goal",
+        "🎯 Goal",
         700
     )
 
@@ -246,39 +246,51 @@ with col2:
 # -----------------------------
 st.subheader("Game Board")
 
-board = []
-
+snake = st.session_state.snake
+cells = []
 for y in range(HEIGHT):
-
-    row = []
-
     for x in range(WIDTH):
-
         position = (x, y)
-
-        if position == st.session_state.snake[0]:
-
-            cell = "ðŸŸ¢"
-
-        elif position in st.session_state.snake:
-
-            cell = "ðŸŸ©"
-
+        if position == snake[0]:
+            cells.append('<div class="cell snake-head" aria-label="Snake head">●</div>')
+        elif position in snake:
+            cells.append('<div class="cell snake-body" aria-label="Snake">●</div>')
         elif position == st.session_state.number_position:
-
-            cell = f"**{st.session_state.number}**"
-
+            cells.append(f'<div class="cell food" aria-label="Number {st.session_state.number}">{st.session_state.number}</div>')
         else:
+            cells.append('<div class="cell empty"></div>')
 
-            cell = "â¬œ"
-
-        row.append(cell)
-
-    board.append(" ".join(row))
-
-
-for row in board:
-    st.markdown(row)
+st.markdown(
+    f"""
+    <style>
+    .snake-board {{
+        display: grid;
+        grid-template-columns: repeat({WIDTH}, minmax(0, 1fr));
+        width: 100%;
+        max-width: 760px;
+        aspect-ratio: {WIDTH} / {HEIGHT};
+        border: 2px solid #334155;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #f8fafc;
+    }}
+    .cell {{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        border: 1px solid #e2e8f0;
+        font-size: clamp(8px, 1.8vw, 18px);
+        font-weight: 700;
+    }}
+    .snake-head {{ color: #166534; background: #86efac; }}
+    .snake-body {{ color: #15803d; background: #bbf7d0; }}
+    .food {{ color: #9a3412; background: #fed7aa; border-radius: 50%; }}
+    </style>
+    <div class="snake-board">{''.join(cells)}</div>
+    """,
+    unsafe_allow_html=True,
+)
 
 
 # -----------------------------
@@ -286,7 +298,7 @@ for row in board:
 # -----------------------------
 if st.session_state.game_over:
 
-    st.error("ðŸ’¥ Game Over! You hit the wall.")
+    st.error("💥 Game Over! You hit the wall.")
 
     st.info(
         f"You scored **{st.session_state.total}**."
@@ -294,7 +306,7 @@ if st.session_state.game_over:
 
 elif st.session_state.won:
 
-    st.success("ðŸ† YOU WIN!")
+    st.success("🏆 YOU WIN!")
 
     st.balloons()
 
